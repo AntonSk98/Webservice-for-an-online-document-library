@@ -1,0 +1,59 @@
+version: '2'
+services:
+  nginx:
+    build: nginx/.
+    container_name: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/www:/var/www/nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - grproxy
+    networks:
+      - se_backend
+  grproxy:
+    build: grproxy/.
+    container_name: grproxy
+    volumes:
+      - ./grproxy/bin/:/grproxy
+    ports:
+    - "8080:80"
+    networks:
+      - se_backend
+      - se_frontend
+  hbase:
+    build: hbase/.
+    container_name: hbase
+    networks:
+      se_backend:
+        aliases:
+          - zookeeper
+  gserve1:
+    build: gserve/.
+    container_name: gserve1
+    volumes:
+    - ./gserve/bin/:/gserve
+    networks:
+      - se_backend
+    depends_on:
+      - grproxy
+      - hbase
+    environment:
+      GSERVE_NAME: gserve1
+  gserve2:
+    build: gserve/.
+    container_name: gserve2
+    networks:
+      - se_backend
+    depends_on:
+      - grproxy
+      - hbase
+    environment:
+      GSERVE_NAME: gserve2
+
+networks:
+  se_backend:
+    driver: bridge
+  se_frontend:
+    driver: bridge
