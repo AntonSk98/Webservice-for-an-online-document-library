@@ -5,18 +5,8 @@ Users of an online **document library** are presented with an input form, where 
 (e.g., books, poems, recipes) along with *metadata* (e.g., author, mime type, ISBN).
 For the sake of simplicity, they can view *all* stored documents on a single page.
 
-+------------+---------------+
-| Input form | Output sample |
-+------------+---------------+
-| |form|     | |output|      |
-+------------+---------------+
-
 The task was to develop the online **document library** consisting of multiple services.
-The application has the following architecture.
-
-+----------------+
-| |architecture| |
-+----------------+
+The application has the following architecture represented below.
 
 Aspects that are used within that project
 -----------------------------------------
